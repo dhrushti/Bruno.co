@@ -25,7 +25,7 @@ function Header() {
   
   const history = useNavigate();
   function handlecart(){
-   history("/cart")
+   history("/cartitems")
   }
   return (
     <Navbar
