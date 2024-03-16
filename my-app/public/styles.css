@@ -1,0 +1,21 @@
+.container1 {
+    display: flex;
+    padding: 50px;
+    
+  }
+  
+  .box {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    padding: 20px;
+    background-color: #ccc;
+  }
+  
+  .cenalign {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+ 
+  
