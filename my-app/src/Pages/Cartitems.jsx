@@ -3,28 +3,18 @@ import axios from "axios";
 import Productcard1 from "../Productcard1";
 import prodinfo from "../ProductInfo";
 import { Grid } from "@mui/material";
-function Cartitems(props) {
-    const arr = []; // Assuming arr contains keys to be checked
-const arr1 = [];
-for (var i = 0; i < prodinfo.length; i++) {
-    if (arr.includes(prodinfo[i].key)) {
-        arr1.push(prodinfo[i]);
-    }
-}
+import Header from "../Header";
 
+
+function Cartitems(props) {
     const [cartitems, setCartItems] = useState([]);
-   
+    const [arr, setArr] = useState([]);
+
     useEffect(() => {
         addcart();
-    
     }, []);
+
     async function addcart() {
-        // e.preventDefault();
-
-        // Retrieve form data
-
-
-
         const config = {
             headers: {
                 "Content-Type": "multipart/form-data"
@@ -32,14 +22,13 @@ for (var i = 0; i < prodinfo.length; i++) {
         };
 
         try {
-            // Make POST request
             const res = await axios.post("/cartitems", config);
             if (res.status === 200) {
                 console.log("Form submitted successfully!");
-                // Redirect user if needed
-
                 setCartItems(res.data.message);
-
+                // Extract item_no values and update arr
+                const itemNos = res.data.message.map(item => item.item_no);
+                setArr(itemNos);
             } else {
                 console.log("Error:", res.data);
             }
@@ -47,32 +36,32 @@ for (var i = 0; i < prodinfo.length; i++) {
             console.error("An error occurred:", error);
         }
     }
+    console.log(arr);
+
     return (
         <div>
-            {cartitems.map((item, index) => (
-                // <div key={index}>
-                //     <h1>{item.item_no}</h1>
-                // </div>
-                arr.push(item.item_no)
-            ))}
-            {props.arr.map((items, index) => {
-                return (
-                    <Grid item xs={12} lg={2.5}>
-
-
-
-                        <Productcard1
-                            className="box"
-                            imagename={props.arr[index].ImgName}
-                            pname={props.arr[index].Pname}
-                            price={props.arr[index].price}
-                            descr={props.arr[index].descr}
-                            id={index}
-                        />
-                    </Grid>
-                );})}
-           
+            <Header />
+            <div className="container1">
+                <Grid container spacing={7} justify="center" className="cenalign">
+                    {prodinfo.map((item, index) => {
+                        if(arr.includes(index)){
+                        return (
+                            <Grid item xs={12} lg={2.5} key={index}>
+                                <Productcard1
+                                    className="box"
+                                    imagename={prodinfo[index].ImgName}
+                                    pname={prodinfo[index].Pname}
+                                    price={prodinfo[index].price}
+                                    descr={prodinfo[index].descr}
+                                    id={index} />
+                            </Grid>
+                        );
+                        }
+                    })}
+                </Grid>
+            </div>
         </div>
     );
 }
+
 export default Cartitems;

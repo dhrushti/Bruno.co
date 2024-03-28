@@ -1,6 +1,6 @@
 const prodinfo=[
     {
-        key:1,
+        key:0,
         ImgName:"../assets/Productimgs/z1.jpg",
         category:"women",
         Pname:"T-SHIRT",
@@ -8,7 +8,7 @@ const prodinfo=[
         descr:"STRIPED T-SHIRT",
     },
     {
-        key:2,
+        key:1,
         ImgName:"../assets/Productimgs/z2.jpg",
         category:"women",
         Pname:"SHIRT",
@@ -16,7 +16,7 @@ const prodinfo=[
         descr:"BEADED POPLIN SHIRT",
     },
     {
-        key:3,
+        key:2,
         ImgName:"../assets/Productimgs/z6.jpg",
         category:"men",
         Pname:"SWEATSHIRT",
@@ -24,7 +24,7 @@ const prodinfo=[
         descr:"TIED SHIRT",
     },
     {
-        key:4,
+        key:3,
         ImgName:"../assets/Productimgs/z4.jpg",
         category:"women",
         Pname:"T-SHIRT",
@@ -32,8 +32,7 @@ const prodinfo=[
         descr:"TIED SHIRT",
     },
     {
-        key:5,
-       
+        key:4,
         ImgName:"../assets/Productimgs/z5.jpg",
         category:"men",
         Pname:"SWEATSHIRT",
@@ -41,8 +40,7 @@ const prodinfo=[
         descr:"TIED SHIRT",
     },
     {
-        key:6,
-       
+        key:5,
         ImgName:"../assets/Productimgs/z3.jpg",
         category:"women",
         Pname:"T-SHIRT",
@@ -50,8 +48,7 @@ const prodinfo=[
         descr:"TIED SHIRT",
     },
     {
-        key:7,
-      
+        key:6,
         ImgName:"../assets/Productimgs/z7.jpg",
         category:"men",
         Pname:"SWEATSHIRT",
@@ -59,17 +56,15 @@ const prodinfo=[
         descr:"TIED SHIRT",
     },
     {
-        key:8,
-       
+        key:7,
         ImgName:"../assets/Productimgs/z8.jpg",
         category:"men",
         Pname:"T-SHIRT",
         price:"₹4,000.00",
         descr:"TIED SHIRT",
     },
- 
     {
-        key:9,
+        key:8,
         ImgName:"../assets/Productimgs/z9w.webp",
         category:"women",
         Pname:"SHIRT",
@@ -77,7 +72,7 @@ const prodinfo=[
         descr:"BEADED POPLIN SHIRT",
     },
     {
-        key:10,
+        key:9,
         ImgName:"../assets/Productimgs/z10w.webp",
         category:"women",
         Pname:"SHIRT",
@@ -85,7 +80,7 @@ const prodinfo=[
         descr:"BEADED POPLIN SHIRT",
     },
     {
-        key:11,
+        key:10,
         ImgName:"../assets/Productimgs/z11w.webp",
         category:"women",
         Pname:"SHIRT",
@@ -93,7 +88,7 @@ const prodinfo=[
         descr:"BEADED POPLIN SHIRT",
     },
     {
-        key:12,
+        key:11,
         ImgName:"../assets/Productimgs/z12w.jpg",
         category:"women",
         Pname:"SHIRT",
@@ -101,7 +96,7 @@ const prodinfo=[
         descr:"BEADED POPLIN SHIRT",
     },
     {
-        key:13,
+        key:12,
         ImgName:"../assets/Productimgs/z13w.jpg",
         category:"women",
         Pname:"SHIRT",

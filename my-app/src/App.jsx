@@ -9,14 +9,14 @@ import Home from "./Pages/Home";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import Cartitems from "./Pages/Cartitems";
+import ModalCard from "./Pages/ModalCard";
+import AddProductForm from "./AddProductForm";
+import Adminlogin from "./Pages/Adminlogin";
+import AdminPage from "./Pages/AdminPage";
+import UserDetailsAd from "./Pages/UserDetailsAd";
 function App() {
 
-  const [msg,setMsg]=useState("");
-  useEffect(()=>{
-    fetch("http://localhost:8000/xyz")
-    .then((res)=>res.json())
-    .then((data)=>setMsg(data.msg));
-  },[]);
+  
 
   var men = [], women = [], kids = [];
   for (var i = 0; i < prodinfo.length; i++) {
@@ -32,7 +32,7 @@ function App() {
   }
   return (
     <div className="App">
-      <h1>{msg}</h1>
+  
        <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -44,6 +44,11 @@ function App() {
           <Route exact path="/signin" element={<SignIn/>}/>
           <Route exact path="/signup" element={<SignUp/>}/>
           <Route exact path="/cartitems" element={<Cartitems/>}/>
+          <Route exact path="/addproductcard" element={<AddProductForm/>}/>
+          <Route exact path="/admin123" element={<Adminlogin/>}/>
+          <Route exact path="/adminpage" element={<AdminPage/>}/>
+          <Route exact path="/userdetails" element={<UserDetailsAd/>}/>
+          
         </Routes>
       </BrowserRouter> 
 

@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors =require('cors');
 const multer=require('multer');
+const fs = require("fs");
 // const cors = require("cors");
 
 
@@ -41,7 +42,8 @@ var db = mysql.createConnection({
 
 var flag1 = 0;
 var flag2 = 0;
-  
+var flag3=0;
+
 db.connect(function(err) {
     if (err) {
         console.log(err);
@@ -75,6 +77,19 @@ db.connect(function(err) {
                     }
                 });
             }
+
+            for(var i=0;i<tables.length;i++){
+                if(tables[i].TABLE_NAME=="prodinfo") flag3=1;
+            }
+            if(!flag3){
+                var sql="CREATE TABLE prodinfo(key1 INT PRIMARY KEY,prodname VARCHAR(200),price VARCHAR(200),descr VARCHAR(200),category VARCHAR(200),image MEDIUMBLOB NOT NULL);";
+                db.query(sql,function(err,result){
+                    if(err) console.log(err);
+                    else{
+                        console.log("product info created");
+                    }
+                })
+            }
         });   
     }
 });
@@ -82,7 +97,7 @@ db.connect(function(err) {
 // Set up multer for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      const uploadPath = 'uploads'; // Specify the directory where you want to store the uploaded files
+      const uploadPath = 'Uploads'; // Specify the directory where you want to store the uploaded files
       fs.mkdirSync(uploadPath, { recursive: true }); // Create the directory if it doesn't exist
       cb(null, uploadPath);
     },
@@ -185,6 +200,98 @@ app.post("/cartitems",upload.single("photo"),(req,res)=>{
         }
     })
 })
+app.post("/addproductcard",upload.single("prodimg"),(req,res)=>{
+    const { key,prodname,price,descr,category } = req.body;
+    const imageFile = req.file;
+  
+    if (!imageFile) {
+      return res.status(400).json({ message: "No image uploaded" });
+    }
+  
+    const imageContent = fs.readFileSync(imageFile.path);
+  
+    const query = "INSERT INTO prodinfo (key1,prodname,price,descr,category,image) VALUES (?,?,?,?,?,?)";
+    db.query(query, [key,prodname,price,descr,category,imageContent], (err, result) => {
+      if (err) {
+        console.error("Error inserting image into database:", err);
+        return res.status(500).json({ message: "Error uploading image" });
+      }
+      console.log("Successfully inserted image into database!");
+      res.status(200).json({ message: "product info uploaded successfully" });
+    });
+})
+require('dotenv').config();
+
+app.post("/admin123", upload.single("photo"), (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (username === "ROOT" && password === "123") {
+        res.json({ message: "admin login successful" });
+    } else {
+        res.json({ message: "Wrong username or password" });
+    }
+});
+
+
+app.post("/userdetails",upload.single("photo"),(req,res)=>{
+    const sql="SELECT name,email FROM users;";
+    db.query(sql,(err,result1)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result1);
+            res.json({message: result1});
+        }
+    })
+})
+
+var imagearray = []
+
+app.post("/",upload.single('photo'),(req,res)=>{
+    const sql="SELECT * FROM prodinfo;";
+    db.query(sql,(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            for(let i = 0; i < result.length; i++) {
+                var imageBuffer = result[i].image;
+                imagearray.push(Buffer.from(imageBuffer).toString("base64"));
+            }
+            res.json({message:result, images: imagearray})
+        }
+    })
+})
+
+
+app.get("/getimages", (req, res) => {
+    const sql = "SELECT * FROM prodinfo";
+    db.query(sql, (err, results) => {
+      if(err) {
+        console.error("Error fetching images:", err);
+        return res.status(500).json({ message: "Error fetching images" });
+      } 
+      const images = results.map(result => ({
+        imageData: result.image.toString('base64'),
+        prodname: result.prodname,
+        price: result.price,
+        descr: result.descr,
+        category: result.category
+      }));
+      res.json(images);
+    });
+  });
+
+
+
+
+
+
+
+
+
 
 app.listen(8000,function(){
     console.log('server started on port 8000');

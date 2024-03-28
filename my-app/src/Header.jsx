@@ -36,6 +36,8 @@ function Header() {
           height: '6.5rem',
           backgroundColor: '#5F8670',
           color: '#FAEED1',
+          position:'fixed',
+          width:'96rem',
         }
       }>
       <Container fluid>

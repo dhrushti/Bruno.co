@@ -1,19 +1,20 @@
+
 import React,{useState,useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
+
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
 function Copyright(props) {
 
   return (
@@ -32,31 +33,45 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
 
-  const [name ,setName]=useState("");
-  const [email ,setEmail]=useState("");
-  const [pwd ,setPwd]=useState("");
+function AddProductForm(){
+    const [key ,setKey]=useState("");
+  const [prodname ,setProdname]=useState("");
+  const [price ,setPrice]=useState("");
+  const [category,setCategory]=useState("");
+  const [descr ,setDescr]=useState("");
   const [msg,setMsg]=useState("");
-
+  const [file,setFile]=useState("");
 
   const history = useNavigate();
 
-  const handleName=(e)=>{
-    setName(e.target.value);
+  const handlekey=(e)=>{
+    setKey(e.target.value);
   }
-  const handleEmail=(e)=>{
-    setEmail(e.target.value);
+  const handleProdname=(e)=>{
+    setProdname(e.target.value);
   }
-  const handlePassword=(e)=>{
-    setPwd(e.target.value);
+  const handlePrice=(e)=>{
+    setPrice(e.target.value);
   }
+  const handleCategory=(e)=>{
+    setCategory(e.target.value);
+  }
+  const handleDescr=(e)=>{
+    setDescr(e.target.value);
+  }
+  const handleImage = (e) => {
+    setFile(e.target.files[0]);
+}
   async function addSignindata(e) {
     e.preventDefault();
     const formdata =new FormData();
-    formdata.append("username",name);//key is username kelage  and value is melgade
-    formdata.append("useremail",email);
-    formdata.append("pswd",pwd);
+    formdata.append("key",key);//key is username kelage  and value is melgade
+    formdata.append("prodname",prodname);
+    formdata.append("descr",descr);
+    formdata.append("price",price);
+    formdata.append("category",category);
+    formdata.append("prodimg",file);
      
     const config = {
       headers: {
@@ -64,16 +79,16 @@ export default function SignUp() {
       }
   };
 
-
+ 
     try{
-      const res= await axios.post("/signup",formdata,config);
+      const res= await axios.post("/addproductcard",formdata,config);
       if(res.status===200)
       {
         console.log("succesfuly submitted");
         setMsg(res.data.message);
         setTimeout(()=>{
           history("/");
-        },5000);
+        },2000);
       }
       else{
         console.log("error");
@@ -83,9 +98,8 @@ export default function SignUp() {
       console.log("error",error);
     }
   }
-
-  return (
-    <ThemeProvider theme={defaultTheme} >
+    return(
+        <ThemeProvider theme={defaultTheme} >
       <Container component="main" maxWidth="xs" >
         <CssBaseline />
         <Box
@@ -97,60 +111,73 @@ export default function SignUp() {
             
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#5F8670' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          
           <Typography component="h1" variant="h5">
-            Sign up
+            Add Product Info
           </Typography>
           <Box component="form" noValidate onSubmit={addSignindata} sx={{ mt: 1,color:'#5F8670' }}>
         
+            
             <TextField
               margin="normal"
               required
               fullWidth
-              id="name"
-              label="Name"
-              name="username"
+              id="key"
+              label="Key"
+              type="number"
+              name="key1"
               autoFocus
-              onChange={handleName}
+              onChange={handlekey}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="useremail"
-              autoComplete="email"
-              onChange={handleEmail}
+              id="prodname"
+              label="Product Name"
+              name="prodname"
+             
+              onChange={handleProdname}
             /> 
             <TextField
               margin="normal"
               required
               fullWidth
-              name="pswd"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handlePassword}
+              name="price"
+              label="Price"
+        
+              id="price"
+            
+              onChange={handlePrice}
             />
                <TextField
               margin="normal"
               required
               fullWidth
-              name="pswd1"
-              label="Confirm Password"
-              type="password"
-              id="password1"
+              name="descr"
+              label="Description"
+              
+              id="descr"
            
-              onChange={handlePassword}
+              onChange={handleDescr}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+             <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="category"
+              label="Category"
+              
+              id="category"
+           
+              onChange={handleCategory}
             />
+          <Form.Group className="mb-3" controlId="formBasicPassword" style={{ marginBottom: "2rem" }}>
+                      <Form.Label>Select Your Image</Form.Label>
+                      <Form.Control type="file" name='prodimg' onChange={handleImage} />
+                  </Form.Group>
+            
+            
             <Button
               type="submit"
               fullWidth
@@ -159,42 +186,17 @@ export default function SignUp() {
               sx={{ mt: 3, mb: 2 }}
               
             > 
-              Sign Up
+              Add Product
             </Button>
             <div>{msg}</div>
-         
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/signin" variant="body2">
-                  {"Already have an account?"}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/admin123" variant="body2">
-                <Button
-              
-              fullWidth
-              variant="contained"
-
-              sx={{ mt: 3, mb: 2 }}
-              
-            > 
-            Admin Login
-            </Button> 
-                </Link>
-              </Grid>
-            </Grid>
-
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
        
       </Container>
     </ThemeProvider>
-  );
+
+    );
+
 }
+export default AddProductForm;

@@ -55,18 +55,7 @@ const Productcard1 = (props) => {
         </Typography>
         <Typography variant="body2" color="text.secondary" style={{display:'flex',justifyContent:'space-between'}}>
           {props.descr}
-          {
-            likes === 'unchecked' ?
-              <button onClick={handleLikes} style={{
-                background: "transparent",
-                border: "none",
-              }}><FavoriteBorderIcon /></button>
-              :
-              <button onClick={handleDislikes} style={{
-                background: "transparent",
-                border: "none",
-              }}><FavoriteIcon /></button>
-          }
+         
 
         </Typography>
 

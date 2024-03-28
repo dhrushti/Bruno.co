@@ -4,8 +4,8 @@ export const Coverpage = (props) => {
   return (
     <header id="header">
       <div className="intro">
-        <div className="overlay">
-            <TextField id="standard-basic" label="Search" variant="standard" sx={{width:'16%'}} />
+        <div className="overlay"  style={{marginTop:'6rem',height:'40rem'}}>
+            
           <div className="container">
             <div className="row" style={{justifyContent:'space-around'}}>
               <div className="col-md-8 col-md-offset-2 intro-text">

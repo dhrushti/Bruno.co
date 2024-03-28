@@ -42,9 +42,11 @@ const ProductCard = (props) => {
   }
  
   return (
+    <div>
     <Card>
       {/* <img src="../assets/Productimgs/z1.jpg" alt="Product" style={{ width: '100%', height: 'auto' }} /> */}
-      <img src={props.imagename} alt="Product" style={{ width: '100%', height: 'auto' ,padding:'10px'}} />
+      <img src={props.imagename} alt="Product" style={{ width: '100%', height: 'auto', padding: '10px' }} />
+
 
       <CardContent>
         <Typography variant="h6">{props.pname}</Typography>
@@ -55,15 +57,15 @@ const ProductCard = (props) => {
           {props.descr}
           {
             likes === 'unchecked' ?
-              <button onClick={handleLikes} style={{
-                background: "transparent",
-                border: "none",
-              }}><FavoriteBorderIcon /></button>
-              :
-              <button onClick={handleDislikes} style={{
-                background: "transparent",
-                border: "none",
-              }}><FavoriteIcon /></button>
+            <button onClick={handleLikes} style={{
+              background: "transparent",
+              border: "none",
+            }}><FavoriteBorderIcon /></button>
+            :
+            <button onClick={handleDislikes} style={{
+              background: "transparent",
+              border: "none",
+            }}><FavoriteIcon /></button>
           }
 
         </Typography>
@@ -72,7 +74,7 @@ const ProductCard = (props) => {
   fontSize:'19px',
   paddingBottom:'3px',
 }}/> Add</button> */}
-<button onClick={() => handleClick(props.id + 1)} style={{width:'14rem',background:'black',color:'white',padding:'7px',marginTop:'0.8rem'}}>
+<button onClick={() => handleClick(props.id)} style={{width:'14rem',background:'black',color:'white',padding:'7px',marginTop:'0.8rem'}}>
   <LocalMallOutlinedIcon sx={{ fontSize:'19px', paddingBottom:'3px' }}/>
   Add
 </button>
@@ -80,24 +82,25 @@ const ProductCard = (props) => {
         {/* <FormControl fullWidth>
           <InputLabel id="color-select-label">Color</InputLabel>
           <Select
-            labelId="color-select-label"
-            id="color-select"
-            value={selectedColor}
-            onChange={handleColorChange}
+          labelId="color-select-label"
+          id="color-select"
+          value={selectedColor}
+          onChange={handleColorChange}
           >
-            <MenuItem value="red">Red</MenuItem>
-            <MenuItem value="blue">Blue</MenuItem>
-            <MenuItem value="green">Green</MenuItem>
+          <MenuItem value="red">Red</MenuItem>
+          <MenuItem value="blue">Blue</MenuItem>
+          <MenuItem value="green">Green</MenuItem>
           </Select>
         </FormControl> */}
       </CardContent>
 
       {/* <CardActions>
         <Button variant="contained" color="primary">
-          Add to Cart
+        Add to Cart
         </Button>
       </CardActions> */}
     </Card>
+        </div>
   );
 };
 
