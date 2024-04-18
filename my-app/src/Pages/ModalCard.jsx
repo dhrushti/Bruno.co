@@ -26,7 +26,7 @@ function ModalCard() {
             <div className="right1">
                 <p className="category1">
                     {prodinfo[0].category}
-                </p>
+                </p> 
                 <p>
                     {prodinfo[0].Pname}
                 </p>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Productcard1 from "../Productcard1";
+import ProductCard2 from "../ProductCard2";
 import { Grid } from "@mui/material";
 import Header from "../Header";
 
 
-function Cartitems(props) {
+function LikedItems(props) {
     const [cartitems, setCartItems] = useState([]);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ function Cartitems(props) {
         };
 
         try {
-            const res = await axios.post("/cartitems", config);
+            const res = await axios.post("/likeditems", config);
             if (res.status === 200) {
                 console.log("Form submitted successfully!");
                 console.log(res.data.message);
@@ -41,13 +41,14 @@ function Cartitems(props) {
                     {cartitems.map((item, index) => {
                         return (
                             <Grid item xs={12} lg={2.5} key={index}>
-                                <Productcard1
+                                <ProductCard2
                                     className="box"
                                     imagename={`data:image/jpeg;base64,${cartitems[index].imagex}`}
                                     pname={cartitems[index].prodname}
                                     price={cartitems[index].price}
                                     descr={cartitems[index].descr}
-                                    id={index} />
+                                    id={index} 
+                                />
                             </Grid>
                         );
                         
@@ -58,4 +59,4 @@ function Cartitems(props) {
     );
 }
 
-export default Cartitems;
+export default LikedItems;

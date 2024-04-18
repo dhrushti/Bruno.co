@@ -68,22 +68,8 @@ function Home() {
       <Banners/>
       <div className="container1">
         <Grid container spacing={7} justify="center" className="cenalign">
-          {/* {cartitems && cartitems.map((item, index) => {
-            console.log(item.prodname);
-            return (
-              <Grid item xs={12} lg={2.5} key={index}>
-                <ProductCard
-                  className="box"
-                  imagename={img[index]}
-                  pname={item.prodname}
-                  price={item.price} 
-                  descr={item.descr}
-                  id={index}
-                />
-              </Grid>
-            );
-          })} */}
           {images.map((item, index) => {
+            console.log(item);
           return (
               <Grid item xs={12} lg={2.5} key={index}>
                 <ProductCard
@@ -93,7 +79,7 @@ function Home() {
                   pname={item.prodname}
                   price={item.price} 
                   descr={item.descr}
-                  id={index}
+                  id={item.item_no}
                 />
               </Grid>
           );

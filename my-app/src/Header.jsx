@@ -14,6 +14,7 @@ import BasicModal from './Pages/BasicModal';
 import { TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Women from './Pages/Women';
 function Header() {
   const [menu, setMenu] = useState("")
   const textarr = ["Sign in", "Search", "Favorites", "Shopping bag"]
@@ -27,6 +28,9 @@ function Header() {
   function handlecart(){
    history("/cartitems")
   }
+  function handlelike(){
+    history("/likeditems")
+   }
   return (
     <Navbar
       expand="lg"
@@ -59,21 +63,31 @@ function Header() {
               <Link style={{ color: '#FAEED1', textDecoration: 'none' }} to='/'> Home</Link>
               {menu === "home" ? <hr /> : <></>}
             </Nav.Link>
-            <Nav.Link onClick={() => { setMenu("bestsellers") }} style={{ color: '#FAEED1', }}><Link style={{ color: '#FAEED1', textDecoration: 'none' }} to='/bestsellers'>Best Sellers </Link>{menu === "bestsellers" ? <hr /> : <></>}</Nav.Link>
-            <NavDropdown className="nav-menu"
+            <Nav.Link onClick={() => { setMenu("bestsellers") }} style={{ color: '#FAEED1', }}><Link style={{ color: '#FAEED1', textDecoration: 'none' }} to='/bestseller'>Best Sellers </Link>{menu === "bestsellers" ? <hr /> : <></>}</Nav.Link>
+            {/* <NavDropdown className="nav-menu"
               title="Shop"
               id="navbarScrollingDropdown"
               style={{ color: '#FAEED1', textDecoration: 'none' }}>
-              <NavDropdown.Item onClick={() => { setMenu("kids") }} style={{ color: '#5F8670', textDecoration: 'none' }}><Link to='/kids'> Kids</Link>{menu === "kids" ? <hr /> : <></>}  </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => { setMenu("women") }} style={{ color: '#5F8670', }}><Link to='/women'>Women</Link>{menu === "women" ? <hr /> : <></>}</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => { setMenu("kids") }} style={{ color: '#5F8670', textDecoration: 'none' }}><Link to='/kidsq'> Kids</Link>{menu === "kids" ? <hr /> : <></>}  </NavDropdown.Item>
+              <NavDropdown.Item onClick={() => { setMenu("women") }} style={{ color: '#5F8670', }}><Link to={<Women/>}>Women</Link>{menu === "women" ? <hr /> : <></>}</NavDropdown.Item>
               <NavDropdown.Item onClick={() => { setMenu("men") }} style={{ color: '#5F8670', }}><Link to='/men'>Men</Link> {menu === "men" ? <hr /> : <></>}    </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
             <Nav.Link href="#" style={{ color: '#FAEED1', }}>
               About
             </Nav.Link>
+            <Nav.Link href="/women" style={{ color: '#FAEED1', }}>
+              Women
+            </Nav.Link>
+            <Nav.Link href="/men" style={{ color: '#FAEED1', }}>
+              Men
+            </Nav.Link>
+            <Nav.Link href="/kids" style={{ color: '#FAEED1', }}>
+              Kids
+            </Nav.Link>
           </Nav>
           <BasicModal text={"Sign Up"} icon={<PermIdentityIcon />} />
-          <button style={
+          <button onClick={handlelike}
+          style={
             {
               background: 'transparent',
               color: '#FAEED1',

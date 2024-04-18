@@ -14,6 +14,10 @@ import AddProductForm from "./AddProductForm";
 import Adminlogin from "./Pages/Adminlogin";
 import AdminPage from "./Pages/AdminPage";
 import UserDetailsAd from "./Pages/UserDetailsAd";
+import LikedItems from "./Pages/LikedItems";
+import Women from "./Pages/Women";
+import Men from "./Pages/Men";
+import Kids from "./Pages/Kids";
 function App() {
 
   
@@ -36,11 +40,11 @@ function App() {
        <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
-
+ 
           <Route exact path="/bestseller" element={<Bestseller />} />
-          <Route exact path="/men" element={<Shop arr={men} name="men" />} />
-          <Route exact path="/women" element={<Shop arr={women} name='women' />} />
-          <Route exact path="/kids" element={<Shop arr={kids} name='kids' />} />
+          <Route exact path="/men" element={<Men/>} />
+          <Route exact path="/women" element={<Women/>} />
+          <Route exact path="/kids" element={<Kids />} />
           <Route exact path="/signin" element={<SignIn/>}/>
           <Route exact path="/signup" element={<SignUp/>}/>
           <Route exact path="/cartitems" element={<Cartitems/>}/>
@@ -48,7 +52,7 @@ function App() {
           <Route exact path="/admin123" element={<Adminlogin/>}/>
           <Route exact path="/adminpage" element={<AdminPage/>}/>
           <Route exact path="/userdetails" element={<UserDetailsAd/>}/>
-          
+          <Route exact path="/likeditems" element={<LikedItems/>}/>
         </Routes>
       </BrowserRouter> 
 

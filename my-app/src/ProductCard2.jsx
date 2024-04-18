@@ -6,7 +6,7 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ProductCard = (props) => {
+const ProductCard2 = (props) => {
   
 
  
@@ -33,24 +33,7 @@ const ProductCard = (props) => {
   };
   
 
-  const handleLikes = (carty) => {
-    console.log("clicked");
-    setLikes("checked");
-    console.log(carty);
-    // Make a POST request to your backend endpoint
-    axios.post('/like', {carty})
-      .then(response => {
-        console.log(response.data);
-        // Handle successful response here
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Handle error here
-      });
-  }
-  const handleDislikes = () => {
-    setLikes("unchecked")
-  }
+  
  
   return (
     <div>
@@ -66,18 +49,7 @@ const ProductCard = (props) => {
         </Typography>
         <Typography variant="body2" color="text.secondary" style={{display:'flex',justifyContent:'space-between'}}>
           {props.descr}
-          {
-            likes === 'unchecked' ?
-            <button onClick={() => handleLikes(props.id)} style={{
-              background: "transparent",
-              border: "none",
-            }}><FavoriteBorderIcon /></button>
-            : 
-            <button onClick={handleDislikes} style={{
-              background: "transparent",
-              border: "none",
-            }}><FavoriteIcon /></button>
-          }
+          
 
         </Typography>
 
@@ -115,4 +87,4 @@ const ProductCard = (props) => {
   );
 };
 
-export default ProductCard;
+export default ProductCard2;

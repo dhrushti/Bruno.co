@@ -13,7 +13,8 @@ const fs = require("fs");
 const app = express();
 app.use(cors());
 
-
+// route included
+// app.use("/payment", require("./payment"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -24,25 +25,26 @@ app.use(express.static("public"));
 // app.use(cors());
 app.use(express.json());
 
-var db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "drushti",
-    database: "bruno",
-    
-});
-
 // var db = mysql.createConnection({
 //     host: "localhost",
 //     user: "root",
-//     password: "@Akash2002",
-//     database: "sculptica"
+//     password: "drushti",
+//     database: "bruno",
+    
 // });
+
+var db = mysql.createConnection({
+    host: "bruno.czm0cm226twp.eu-north-1.rds.amazonaws.com",
+    user: "root",
+    password: "8105585637",
+    database: "bruno"
+});
 
 
 var flag1 = 0;
 var flag2 = 0;
-var flag3=0;
+var flag3 = 0;
+var flag4 = 0;
 
 db.connect(function(err) {
     if (err) {
@@ -69,7 +71,7 @@ db.connect(function(err) {
             }
 
             if(!flag2){
-                var sql = "CREATE TABLE cartitems(carty VARCHAR(200),item INT PRIMARY KEY AUTO_INCREMENT,item_no INT);"
+                var sql = "CREATE TABLE cartitems(carty VARCHAR(200),item INT PRIMARY KEY AUTO_INCREMENT,item_no INT UNIQUE);"
                 db.query(sql,function(err,result){
                     if(err) console.log(err);
                     else{
@@ -90,6 +92,20 @@ db.connect(function(err) {
                     }
                 })
             }
+
+            for(var i=0;i<tables.length;i++){
+                if(tables[i].TABLE_NAME=="likeditems") flag4=1;
+            }
+            if(!flag4){
+                var sql="CREATE TABLE likeditems(carty VARCHAR(200),item INT PRIMARY KEY AUTO_INCREMENT,item_no INT UNIQUE);";
+                db.query(sql,function(err,result){
+                    if(err) console.log(err);
+                    else{
+                        console.log("likeditems created");
+                    }
+                })
+            }
+
         });   
     }
 });
@@ -169,15 +185,33 @@ app.post("/signin", upload.single("photo"), (req, res) => {
 
 app.post("/cart",(req,res)=>{
     const cartItem = req.body;
-    var a="";
-    var b=0;
     console.log('Received cart item:', cartItem);
     for (const key in cartItem) {
-        a=key;
-        b=cartItem[key];
+        var a=key;
+        var b=cartItem[key];
     }
     console.log(a,b); 
      const sql="INSERT INTO cartitems (carty,item_no) VALUES(?,?);";
+     db.query(sql,[a,b],(err,result)=>{
+        if(err){
+            console.log(err.sqlMessage);
+        }
+        else{
+            console.log("successfuly added into db");
+        }
+     })
+})
+
+
+app.post("/like",(req,res)=>{
+    const likeItem = req.body;
+    console.log('Received like item:', likeItem);
+    for (const key in likeItem) {
+        var a=key;
+        var b=likeItem[key];
+    }
+    console.log(a,b); 
+     const sql="INSERT INTO likeditems (carty,item_no) VALUES(?,?);";
      db.query(sql,[a,b],(err,result)=>{
         if(err){
             console.log(err);
@@ -188,18 +222,73 @@ app.post("/cart",(req,res)=>{
      })
 })
 
-app.post("/cartitems",upload.single("photo"),(req,res)=>{
-    const sql="SELECT item_no FROM cartitems";
-    db.query(sql,(err,result1)=>{
-        if(err){
+// app.post("/cartitems",upload.single("photo"),(req,res)=>{
+//     const sql="SELECT item_no FROM cartitems;";
+//     db.query(sql,(err,result1)=>{
+//         if(err){
+//             console.log(err);
+//         }
+//         else{
+//             db.query("SELECT * FROM prodinfo;", (err, result11) => {
+//                 if (err) console.log(err);
+//                 else {
+//                     console.log(result1);
+//                     res.json({message: result11});
+//                 }
+//             })
+//         }
+//     })
+// })
+
+
+app.post("/cartitems", upload.single("photo"), (req, res) => {
+    const sql = "SELECT * FROM cartitems INNER JOIN prodinfo ON cartitems.item_no = prodinfo.key1;";
+    db.query(sql, (err, result) => {
+        if (err) {
             console.log(err);
+            res.status(500).json({ error: "Internal Server Error" });
+        } else {
+            const items = result.map(item => ({
+                item_no: item.item_no,
+                // Include other properties you need from cartitems table
+                // Assuming the image is stored in the 'image' column of the 'prodinfo' table
+                prodname: item.prodname,
+                price: item.price,
+                descr: item.descr,
+                category: item.category,
+                // Convert image to base64
+                imagex: item.image.toString('base64')
+            }));
+            res.json({ message: items });
         }
-        else{
-            console.log(result1);
-            res.json({message: result1});
+    });
+});
+
+
+
+app.post("/likeditems",upload.single("photo"),(req,res)=>{
+    const sql = "SELECT * FROM likeditems INNER JOIN prodinfo ON likeditems.item_no = prodinfo.key1;";
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ error: "Internal Server Error" });
+        } else {
+            const items = result.map(item => ({
+                item_no: item.item_no,
+                // Include other properties you need from cartitems table
+                // Assuming the image is stored in the 'image' column of the 'prodinfo' table
+                prodname: item.prodname,
+                price: item.price,
+                descr: item.descr,
+                category: item.category,
+                // Convert image to base64
+                imagex: item.image.toString('base64')
+            }));
+            res.json({ message: items });
         }
-    })
+    });
 })
+
 app.post("/addproductcard",upload.single("prodimg"),(req,res)=>{
     const { key,prodname,price,descr,category } = req.body;
     const imageFile = req.file;
@@ -266,6 +355,8 @@ app.post("/",upload.single('photo'),(req,res)=>{
 })
 
 
+
+
 app.get("/getimages", (req, res) => {
     const sql = "SELECT * FROM prodinfo";
     db.query(sql, (err, results) => {
@@ -278,15 +369,72 @@ app.get("/getimages", (req, res) => {
         prodname: result.prodname,
         price: result.price,
         descr: result.descr,
-        category: result.category
+        category: result.category,
+        item_no:result.key1,
+      }));
+      res.json(images);
+    });
+  });
+
+  app.get("/getimagesm", (req, res) => {
+    const sql = "SELECT * FROM prodinfo WHERE category=?;";
+    db.query(sql,["men"], (err, results) => {
+      if(err) {
+        console.error("Error fetching images:", err);
+        return res.status(500).json({ message: "Error fetching images" });
+      } 
+      const images = results.map(result => ({
+        imageData: result.image.toString('base64'),
+        prodname: result.prodname,
+        price: result.price,
+        descr: result.descr,
+        category: result.category,
+        item_no:result.key1,
+      }));
+      res.json(images);
+    });
+  });
+
+  app.get("/getimagesw", (req, res) => {
+    const sql = "SELECT * FROM prodinfo WHERE category=?;";
+    db.query(sql,["women"], (err, results) => {
+      if(err) {
+        console.error("Error fetching images:", err);
+        return res.status(500).json({ message: "Error fetching images" });
+      } 
+      const images = results.map(result => ({
+        imageData: result.image.toString('base64'),
+        prodname: result.prodname,
+        price: result.price,
+        descr: result.descr,
+        category: result.category,
+        item_no:result.key1,
       }));
       res.json(images);
     });
   });
 
 
-
-
+  app.get("/getimagesk", (req, res) => {
+    const sql = "SELECT * FROM prodinfo WHERE category=?;";
+    db.query(sql,["kids"], (err, results) => {
+      if(err) {
+        console.error("Error fetching images:", err);
+        return res.status(500).json({ message: "Error fetching images" });
+      } 
+      const images = results.map(result => ({
+        imageData: result.image.toString('base64'),
+        prodname: result.prodname,
+        price: result.price,
+        descr: result.descr,
+        category: result.category,
+        item_no:result.key1,
+      }));
+      res.json(images);
+    });
+  });
+// const RAZORPAY_SECRET=RGTlLfQdGOHNQuA2Rfu1HDYv;
+// const RAZORPAY_KEY_ID=rzp_test_eUJY5DO1rH7Fzh;
 
 
 
