@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Productcard1 from "../Productcard1";
-import prodinfo from "../ProductInfo";
-import { Grid } from "@mui/material";
 import Header from "../Header";
 import BTable from "./BTable";
 

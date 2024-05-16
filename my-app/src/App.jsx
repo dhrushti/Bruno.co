@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import Home from "./Pages/Home";
 import Bestseller from './Pages/Bestseller';
-import Shop from './Pages/Shop';
 import prodinfo from "./ProductInfo";
 
 import Home from "./Pages/Home";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import Cartitems from "./Pages/Cartitems";
-import ModalCard from "./Pages/ModalCard";
 import AddProductForm from "./AddProductForm";
 import Adminlogin from "./Pages/Adminlogin";
 import AdminPage from "./Pages/AdminPage";
@@ -18,6 +16,7 @@ import LikedItems from "./Pages/LikedItems";
 import Women from "./Pages/Women";
 import Men from "./Pages/Men";
 import Kids from "./Pages/Kids";
+import About from "./Pages/About";
 function App() {
 
   
@@ -53,6 +52,7 @@ function App() {
           <Route exact path="/adminpage" element={<AdminPage/>}/>
           <Route exact path="/userdetails" element={<UserDetailsAd/>}/>
           <Route exact path="/likeditems" element={<LikedItems/>}/>
+          <Route exact path="/about" element={<About/>}/>
         </Routes>
       </BrowserRouter> 
 

@@ -3,7 +3,6 @@ import Header from "../Header";
 import ProductCard from "../ProductCard";
 import Footer from "../Footer";
 import { Grid } from "@mui/material";
-import prodinfo from "../ProductInfo";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Mainslide from "../Mainslide";
 import { Coverpage } from "./Coverpage";

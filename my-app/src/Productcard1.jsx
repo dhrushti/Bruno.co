@@ -1,12 +1,7 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent,  Typography,} from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Grid from '@mui/material';
 
 const Productcard1 = (props) => {
   
